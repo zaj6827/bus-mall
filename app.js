@@ -127,27 +127,54 @@ datNewNew();
 
 body.addEventListener('click', clickHandler);
 
-var barData = {
-  labels: imgArray,
-  datasets : [
-    {
-      data : imgArray[0].timesAppeared,
-      fillColor : "#48A497",
-      strokeColor : "#48A4D1",
-    },
-    {
-      data : imgArray[0].timesClicked,
-      fillColor : "rgba(73,188,170,0.4)",
-      strokeColor : "rgba(72,174,209,0.4)",
-    }
-  ]
+
+
+
+
+
+var labelData = [];
+var actualData = [];
+function makeData() = {
+for (var i = 0; i < imgArray.length; i++) {
+  labelData.push(imgArray[i].name);
+  actualData.push(imgArray[i]).timesClicked;
+}
 }
 
-
-function drawChart() {
-  var surveyResults = document.getElementById('surveyResults').getContext('2d');
-  surveyChart = new Chart(surveyResults, {
+var ctx = document.getElementById('surveyResults').getContext('2d');
+var myChart = new Chart(ctx, {
     type: 'bar',
-    data: barData,
-  });
-};
+    data: {
+        labels: labelData
+        datasets: [{
+            label: '# of Votes',
+            data: actualData,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+      }
+    }
