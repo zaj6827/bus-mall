@@ -8,6 +8,7 @@ var newPics = [];
 var imgArray = [];
 var body = document.getElementById('body');
 var randomNum = Math.floor(Math.random() * imgArray.length);
+var chartDrawn = true;
 // var img1 = document.getElementById('img1');
 // var img2 = document.getElementById('img2');
 // var img3 = document.getElementById('img3');
@@ -134,47 +135,58 @@ body.addEventListener('click', clickHandler);
 
 var labelData = [];
 var actualData = [];
-function makeData() = {
+
+
 for (var i = 0; i < imgArray.length; i++) {
   labelData.push(imgArray[i].name);
   actualData.push(imgArray[i]).timesClicked;
 }
-}
 
-var ctx = document.getElementById('surveyResults').getContext('2d');
-var myChart = new Chart(ctx, {
+
+var data = {
+  labels: labelData, // titles array we declared earlier
+  datasets: [
+    {
+      data: actualData, // votes array we declared earlier
+      backgroundColor: [
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy'
+      ],
+      hoverBackgroundColor: [
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple'
+      ]
+    }]
+};
+
+
+function drawChart() {
+  var ctx = document.getElementById('surveyResults').getContext('2d');
+  var myChart = new Chart(ctx, {
     type: 'bar',
-    data: {
-        labels: labelData
-        datasets: [{
-            label: '# of Votes',
-            data: actualData,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
+    data: data,
     options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
+      responsive: false,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutBounce'
       }
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          max: 10,
+          min: 0,
+          stepSize: 1.0
+        }
+      }]
     }
+  });
+  chartDrawn = true;
+};
