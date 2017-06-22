@@ -8,7 +8,8 @@ var newPics = [];
 var imgArray = [];
 var body = document.getElementById('body');
 var randomNum = Math.floor(Math.random() * imgArray.length);
-var chartDrawn = true;
+var chartDrawn = false;
+var myChart;
 // var img1 = document.getElementById('img1');
 // var img2 = document.getElementById('img2');
 // var img3 = document.getElementById('img3');
@@ -62,12 +63,20 @@ function datNewNew() {
   }
 }
 
+var testStorage = function(){
+  if(localStorage.data) {
+    imgArray = JSON.parse(localstorage.data);
+  } else {
+    datNewNew();
+  }
+};
 
 function clickHandler (event) {
   for (var i = 0; i < newPics.length; i++) {
     if (event.target.id == newPics[i].name) {
       newPics[i].timesClicked ++;
       totalClicks ++;
+      localStorage.setItem('data', JSON.stringify(imgArray));
       var remImg = document.getElementById('body')
       while (remImg.firstChild) {
         remImg.removeChild(remImg.firstChild)
@@ -92,6 +101,8 @@ function clickHandler (event) {
           }
           secEl.appendChild(ulEl);
           body.appendChild(secEl);
+          createData();
+          drawChart();
         } else {
           datNewNew();
           checkPercent();
@@ -126,7 +137,6 @@ new imgMaker('wine-glass', 'img/wine-glass.jpg');
 
 datNewNew();
 
-body.addEventListener('click', clickHandler);
 
 
 
@@ -136,19 +146,34 @@ body.addEventListener('click', clickHandler);
 var labelData = [];
 var actualData = [];
 
-
-for (var i = 0; i < imgArray.length; i++) {
-  labelData.push(imgArray[i].name);
-  actualData.push(imgArray[i]).timesClicked;
+function createData(){
+  for (var i = 0; i < imgArray.length; i++) {
+    labelData.push(imgArray[i].name);
+    actualData.push(imgArray[i].timesClicked);
+  }
 }
 
-
-var data = {
+var dataForChart = {
   labels: labelData, // titles array we declared earlier
   datasets: [
     {
       data: actualData, // votes array we declared earlier
       backgroundColor: [
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
         'bisque',
         'darkgray',
         'burlywood',
@@ -160,24 +185,33 @@ var data = {
         'purple',
         'purple',
         'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
         'purple'
       ]
     }]
 };
 
-
+var canvas = document.getElementById('surveyResults');
 function drawChart() {
-  var ctx = document.getElementById('surveyResults').getContext('2d');
-  var myChart = new Chart(ctx, {
+  var ctx = canvas.getContext('2d');
+  myChart = new Chart(ctx, {
     type: 'bar',
-    data: data,
-    options: {
-      responsive: false,
-      animation: {
-        duration: 1000,
-        easing: 'easeOutBounce'
-      }
-    },
+    data: dataForChart,
+    options: {},
     scales: {
       yAxes: [{
         ticks: {
@@ -190,3 +224,6 @@ function drawChart() {
   });
   chartDrawn = true;
 };
+
+
+body.addEventListener('click', clickHandler);
