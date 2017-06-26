@@ -84,7 +84,6 @@ function testStorage() {
     new imgMaker('shark', 'img/shark.jpg');
     new imgMaker('sweep', 'img/sweep.png');
     new imgMaker('tauntaun', 'img/tauntaun.jpg');
-    new imgMaker('Thumbs', 'img/Thumbs.db');
     new imgMaker('unicorn', 'img/unicorn.jpg');
     new imgMaker('usb', 'img/usb.gif');
     new imgMaker('water-can', 'img/water-can.jpg');
